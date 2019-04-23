@@ -12,11 +12,11 @@ import java.security.NoSuchAlgorithmException;
  * @author xugang
  * @date 2019/4/23
  */
-public class Md5Util {
-    private static final String TAG = Md5Util.class.getSimpleName();
+public class MD5Util {
+    private static final String TAG = MD5Util.class.getSimpleName();
     private static final int STREAM_BUFFER_LENGTH = 1024;
 
-    public Md5Util() {
+    public MD5Util() {
     }
 
     public static MessageDigest getDigest(String algorithm) throws NoSuchAlgorithmException {
