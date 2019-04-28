@@ -15,3 +15,11 @@
 |HandlerUtil|Handler 工具，回主线程工具|
 |HexUtil|十六进制工具|
 |Log|日志，有开关控制打不打印|
+|KeyboardUtil|软键盘工具，打开关闭软键盘|
+|FileUtil|文件工具类，创建文件夹，删除文件、文件夹，读写文件等|
+|DensityUtil|密度尺寸工具类，获取屏幕宽高，密度；dp,px单位之间的转换|
+|AppUtil|一些基础工具，当前前台的进程，打开相册、摄像头，打开应用，安装apk，发短信打电话等|
+|ViewHelper|查找View等一些操作|
+|CommonPopupWindow|公共的泡泡框|
+|LimitLengthFilter|限制长度的过滤器，EditText使用|
+|AutoAddZeroFilter|EditText 输入Float类型，输入.自动在前面补0|
