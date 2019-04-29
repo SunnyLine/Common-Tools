@@ -1,5 +1,21 @@
 # Common-Tools
 ## 工具库
+## 项目使用
+**在项目跟目录build.gradle中添加如下代码**
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+**在对应的model的gradle文件添加如下依赖**
+```
+dependencies {
+	        implementation 'com.github.SunnyLine:Common-Tools:1.0.5'
+	}
+```
 ### 内容如下：
 |类名|说明|
 |---|----|
