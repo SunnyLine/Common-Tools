@@ -22,7 +22,7 @@ public class HexUtil {
         return encodeHex(data, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER);
     }
 
-    protected static char[] encodeHex(byte[] data, char[] toDigits) {
+    public static char[] encodeHex(byte[] data, char[] toDigits) {
         int l = data.length;
         char[] out = new char[l << 1];
         int i = 0;
@@ -43,7 +43,7 @@ public class HexUtil {
         return encodeHexStr(data, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER);
     }
 
-    protected static String encodeHexStr(byte[] data, char[] toDigits) {
+    public static String encodeHexStr(byte[] data, char[] toDigits) {
         return new String(encodeHex(data, toDigits));
     }
 
@@ -67,21 +67,12 @@ public class HexUtil {
         }
     }
 
-    protected static int toDigit(char ch, int index) {
+    public static int toDigit(char ch, int index) {
         int digit = Character.digit(ch, 16);
         if (digit == -1) {
             throw new RuntimeException("Illegal hexadecimal character " + ch + " at index " + index);
         } else {
             return digit;
         }
-    }
-
-    public static void main(String[] args) {
-        String srcStr = "待转换字符串";
-        String encodeStr = encodeHexStr(srcStr.getBytes());
-        String decodeStr = new String(decodeHex(encodeStr.toCharArray()));
-        System.out.println("转换前：" + srcStr);
-        System.out.println("转换后：" + encodeStr);
-        System.out.println("还原后：" + decodeStr);
     }
 }

@@ -31,8 +31,6 @@ import static android.os.Build.VERSION_CODES.KITKAT;
  */
 public class BitmapUtil {
 
-    private static final String TAG = BitmapUtil.class.getSimpleName();
-
     public BitmapUtil() {
     }
 
