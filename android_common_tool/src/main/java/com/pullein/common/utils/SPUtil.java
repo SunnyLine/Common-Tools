@@ -23,7 +23,7 @@ import java.util.Set;
 public class SPUtil {
     private static final String FILE_NAME = "preferences";
 
-    public void putInt(Context context, String key, int value) {
+    public static void putInt(Context context, String key, int value) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePre.edit();
@@ -31,7 +31,7 @@ public class SPUtil {
         editor.apply();
     }
 
-    public void putString(Context context, String key, String value) {
+    public static void putString(Context context, String key, String value) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePre.edit();
@@ -39,7 +39,7 @@ public class SPUtil {
         editor.apply();
     }
 
-    public void putBoolean(Context context, String key, boolean value) {
+    public static void putBoolean(Context context, String key, boolean value) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePre.edit();
@@ -47,7 +47,7 @@ public class SPUtil {
         editor.apply();
     }
 
-    public void putFloat(Context context, String key, float value) {
+    public static void putFloat(Context context, String key, float value) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePre.edit();
@@ -55,7 +55,7 @@ public class SPUtil {
         editor.apply();
     }
 
-    public void putLong(Context context, String key, long value) {
+    public static void putLong(Context context, String key, long value) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePre.edit();
@@ -63,7 +63,7 @@ public class SPUtil {
         editor.apply();
     }
 
-    public void putStringSet(Context context, String key, Set<String> value) {
+    public static void putStringSet(Context context, String key, Set<String> value) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePre.edit();
@@ -71,7 +71,7 @@ public class SPUtil {
         editor.apply();
     }
 
-    public <T> void putObject(Context context, String key, T value) {
+    public static <T> void putObject(Context context, String key, T value) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = null;
         try {
@@ -92,7 +92,7 @@ public class SPUtil {
         }
     }
 
-    public <T> T getObject(Context context, String key) {
+    public static <T> T getObject(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         String res = sharePre.getString(key, null);
@@ -122,87 +122,87 @@ public class SPUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, Object> getAllMap(Context context) {
+    public static Map<String, Object> getAllMap(Context context) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return (Map<String, Object>) sharePre.getAll();
     }
 
 
-    public float getFloat(Context context, String key) {
+    public static float getFloat(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getFloat(key, -1);
     }
 
-    public float getFloat(Context context, String key, float def) {
+    public static float getFloat(Context context, String key, float def) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getFloat(key, def);
     }
 
-    public long getLong(Context context, String key) {
+    public static long getLong(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getLong(key, -1);
     }
 
-    public long getLong(Context context, String key, long def) {
+    public static long getLong(Context context, String key, long def) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getLong(key, def);
     }
 
-    public Set<String> getStringSet(Context context, String key) {
+    public static Set<String> getStringSet(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getStringSet(key, null);
     }
 
-    public Set<String> getStringSet(Context context, String key, Set<String> def) {
+    public static Set<String> getStringSet(Context context, String key, Set<String> def) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getStringSet(key, def);
     }
 
-    public int getInt(Context context, String key) {
+    public static int getInt(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getInt(key, -1);
     }
 
-    public int getInt(Context context, String key, int defValue) {
+    public static int getInt(Context context, String key, int defValue) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getInt(key, defValue);
     }
 
-    public String getString(Context context, String key) {
+    public static String getString(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getString(key, null);
     }
 
-    public String getString(Context context, String key, String defaultValue) {
+    public static String getString(Context context, String key, String defaultValue) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getString(key, defaultValue);
     }
 
-    public Boolean getBoolean(Context context, String key) {
+    public static Boolean getBoolean(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getBoolean(key, false);
     }
 
 
-    public Boolean getBoolean(Context context, String key, boolean def) {
+    public static Boolean getBoolean(Context context, String key, boolean def) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getBoolean(key, def);
     }
 
-    public void removeKey(Context context, String key) {
+    public static void removeKey(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePre.edit();
@@ -210,7 +210,7 @@ public class SPUtil {
         editor.apply();
     }
 
-    public boolean containsKey(Context context, String key) {
+    public static boolean containsKey(Context context, String key) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.contains(key);
