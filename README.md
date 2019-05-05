@@ -16,6 +16,14 @@ dependencies {
 	        implementation 'com.github.SunnyLine:Common-Tools:1.0.8'
 	}
 ```
+**本Model中，使用了com.android.support:appcompat-v7:28.0.0库，如果项目中包冲突了，如下设置：**
+```
+dependencies {
+	        implementation('com.github.SunnyLine:Common-Tools:1.0.8') {
+        		exclude group: "com.android.support"
+    		}
+	}
+```
 ### 内容如下：
 |类名|说明|
 |---|----|
