@@ -35,11 +35,11 @@ public class DateFormatUtil {
     public static final String GMT_8 = "GMT+08:00";
 
     public static String format2GMT(long timeStamp, String formatStr) {
-        return format2GMT(timeStamp, formatStr, null);
+        return format2GMT(timeStamp, formatStr, GMT_8);
     }
 
     public static String format2GMT(Date date, String formatStr) {
-        return format2GMT(date, formatStr, null);
+        return format2GMT(date, formatStr, GMT_8);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -57,7 +57,7 @@ public class DateFormatUtil {
     }
 
     public static long format2UTC(String date, String formatStr) {
-        return format2UTC(date, formatStr, null);
+        return format2UTC(date, formatStr, GMT_8);
     }
 
     @SuppressLint("SimpleDateFormat")
