@@ -32,7 +32,7 @@ public class DateFormatUtil {
     /**
      * 东八区
      */
-    public static final String GMT_8 = "GTM+08:00";
+    public static final String GMT_8 = "GMT+08:00";
 
     public static String format2GMT(long timeStamp, String formatStr) {
         return format2GMT(timeStamp, formatStr, null);
