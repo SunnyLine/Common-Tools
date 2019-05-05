@@ -13,12 +13,15 @@ import android.support.v4.content.ContextCompat;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 
 /**
  * ViewHelper.java<br>
@@ -40,6 +43,20 @@ public class ViewHelper {
 
     public View getRootView() {
         return rootView;
+    }
+
+    public static void addOnGlobalLayoutListener(final View view, final ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener) {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                onGlobalLayoutListener.onGlobalLayout();
+                if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            }
+        });
     }
 
     /**

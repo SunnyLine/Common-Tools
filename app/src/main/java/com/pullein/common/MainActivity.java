@@ -1,5 +1,6 @@
 package com.pullein.common;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,7 +27,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        refresh();
+        if (view.getId() == R.id.button) {
+            refresh();
+        } else {
+            startActivity(new Intent(this, FragmentActivity.class));
+        }
     }
 
     public void refresh() {
