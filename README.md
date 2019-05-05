@@ -13,7 +13,7 @@ allprojects {
 **在对应的model的gradle文件添加如下依赖**
 ```
 dependencies {
-	        implementation 'com.github.SunnyLine:Common-Tools:1.0.5'
+	        implementation 'com.github.SunnyLine:Common-Tools:1.0.6'
 	}
 ```
 ### 内容如下：
@@ -39,3 +39,4 @@ dependencies {
 |CommonPopupWindow|公共的泡泡框|
 |LimitLengthFilter|限制长度的过滤器，EditText使用|
 |AutoAddZeroFilter|EditText 输入Float类型，输入.自动在前面补0|
+|DateFormatUtil|时间格式转化工具类|
