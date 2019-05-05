@@ -13,7 +13,7 @@ allprojects {
 **在对应的model的gradle文件添加如下依赖**
 ```
 dependencies {
-	        implementation 'com.github.SunnyLine:Common-Tools:1.0.6'
+	        implementation 'com.github.SunnyLine:Common-Tools:1.0.7'
 	}
 ```
 ### 内容如下：
