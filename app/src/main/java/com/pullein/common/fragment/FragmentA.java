@@ -34,7 +34,7 @@ public class FragmentA extends BaseFragment {
         view.findViewById(R.id.btnAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentHelper.addToBackStack(getFragmentManager(),R.id.conContainer,new FragmentB());
+                FragmentHelper.add(getFragmentManager(),R.id.conContainer,new FragmentB());
             }
         });
     }

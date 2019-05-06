@@ -13,6 +13,6 @@ public class FragmentActivity extends BaseActivity {
         setContentView(R.layout.activity_fragment);
 
         FragmentA fragmentA = new FragmentA();
-        FragmentHelper.addToBackStack(getSupportFragmentManager(),R.id.conContainer,fragmentA);
+        FragmentHelper.add(getSupportFragmentManager(),R.id.conContainer,fragmentA);
     }
 }
