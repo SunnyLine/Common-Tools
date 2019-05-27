@@ -2,11 +2,16 @@ package com.pullein.common;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pullein.common.utils.DateFormatUtil;
+import com.pullein.common.utils.ZipUtil;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
         if (view.getId() == R.id.button) {
             refresh();
         } else {
-            startActivity(new Intent(this, FragmentActivity.class));
+            String path = Environment.getExternalStorageDirectory() + File.separator + "doc" + File.separator + "dist.tar.gz";
+            boolean result = ZipUtil.unZip(path, Environment.getExternalStorageDirectory() + File.separator + "doc" + File.separator);
+            Toast.makeText(this, result ? "解压成功" : "解压失败", Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(this, FragmentActivity.class));
         }
     }
 

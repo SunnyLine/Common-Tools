@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 
 /**
@@ -46,9 +47,24 @@ public class FileUtil {
     /**
      * 初始化文件夹
      */
-    public static boolean initFolder(String folderPath) {
+    public static boolean createFolder(String folderPath) {
         File file = new File(folderPath);
         return file.exists() || file.mkdirs();
+    }
+
+    /**
+     * 写入文件
+     *
+     * @param is
+     * @param os
+     */
+    public static void write(InputStream is, OutputStream os) throws IOException {
+        int num;
+        byte[] buf = new byte[1024];
+        while ((num = is.read(buf, 0, buf.length)) != -1) {
+            os.write(buf, 0, num);
+        }
+        os.flush();
     }
 
     /**
@@ -89,8 +105,10 @@ public class FileUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         } finally {
-            CloseableUtil.close(netInputStream, fileOutputStream);
+            CloseableUtil.close(fileOutputStream, netInputStream);
         }
         return file;
     }

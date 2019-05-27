@@ -71,8 +71,7 @@ public class Base64Util {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return new byte[]
-                {};
+        return new byte[]{};
     }
 
     private static byte[] decodePrivate(String str) throws UnsupportedEncodingException {
