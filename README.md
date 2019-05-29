@@ -19,7 +19,7 @@ dependencies {
 **本Model中，使用了com.android.support:appcompat-v7:28.0.0库，如果项目中包冲突了，如下设置：**
 ```
 dependencies {
-	        implementation('com.github.SunnyLine:Common-Tools:1.0.8') {
+	        implementation('com.github.SunnyLine:Common-Tools:1.0.9') {
         		exclude group: "com.android.support"
     		}
 	}
@@ -48,3 +48,4 @@ dependencies {
 |LimitLengthFilter|限制长度的过滤器，EditText使用|
 |AutoAddZeroFilter|EditText 输入Float类型，输入.自动在前面补0|
 |DateFormatUtil|时间格式转化工具类|
+|ZipUtil|解压工具|
