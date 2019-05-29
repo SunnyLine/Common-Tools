@@ -1,6 +1,7 @@
 package com.pullein.common.utils;
 
 import android.os.Build;
+import android.text.TextUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -24,14 +26,36 @@ import java.util.zip.ZipFile;
  * @date 2019/5/27
  */
 public class ZipUtil {
+    public static byte[] gzip(String str, String encoding) {
+        if (TextUtils.isEmpty(str)) {
+            return null;
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        GZIPOutputStream gzip = null;
+        try {
+            gzip = new GZIPOutputStream(out);
+            gzip.write(str.getBytes(encoding));
+            gzip.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            CloseableUtil.close(gzip, out);
+        }
+        return out.toByteArray();
+    }
+
     public static String unGzip(String gzipStr) {
-        //https://www.jianshu.com/p/dd69a19bfb99
         return unGzip(gzipStr, "UTF-8");
     }
 
     public static String unGzip(String gzipStr, String encoding) {
         byte[] data = Base64Util.decode(gzipStr);
-        if (CollectionUtil.isEmpty(data)) {
+        return unGzip(data, encoding);
+    }
+
+    public static String unGzip(byte[] gzipData, String encoding) {
+        if (CollectionUtil.isEmpty(gzipData)) {
             return null;
         }
         ByteArrayOutputStream baos = null;
@@ -40,7 +64,7 @@ public class ZipUtil {
         try {
             //建立gzip压缩文件输出流
             baos = new ByteArrayOutputStream();
-            bais = new ByteArrayInputStream(data);
+            bais = new ByteArrayInputStream(gzipData);
             gis = new GZIPInputStream(bais);
             byte[] buffer = new byte[256];
             int num;
