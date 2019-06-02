@@ -9,7 +9,7 @@ package com.pullein.common.utils;
  */
 public class Log {
     public static boolean isPrint = true;
-    private static String defaultTag = "Log";
+    private static String defaultTag = "======Log======";
 
     private Log() {
     }
