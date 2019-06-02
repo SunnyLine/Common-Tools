@@ -21,7 +21,11 @@ import java.util.Set;
  * @date 2019/4/23
  */
 public class SPUtil {
-    private static final String FILE_NAME = "preferences";
+    private static String FILE_NAME = "default_preferences";
+
+    public static void transform(String fileName) {
+        FILE_NAME = fileName;
+    }
 
     public static void putInt(Context context, String key, int value) {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
@@ -200,6 +204,17 @@ public class SPUtil {
         SharedPreferences sharePre = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sharePre.getBoolean(key, def);
+    }
+
+    public static void clearData(Context context, String fileName) {
+        SharedPreferences sharedPre = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPre.edit();
+        editor.clear();
+        editor.apply();
+    }
+
+    public static void clearData(Context context) {
+        clearData(context, FILE_NAME);
     }
 
     public static void removeKey(Context context, String key) {

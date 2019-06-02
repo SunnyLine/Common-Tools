@@ -53,6 +53,19 @@ public class FileUtil {
     }
 
     /**
+     * 获取文件名称
+     *
+     * @param url
+     * @return
+     */
+    public static String getFileName(String url) {
+        if (url.contains("/")) {
+            return url.substring(url.lastIndexOf("/") + 1);
+        }
+        return "";
+    }
+
+    /**
      * 写入文件
      *
      * @param is
