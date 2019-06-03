@@ -15,6 +15,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.text.DecimalFormat;
 
 /**
@@ -63,6 +65,62 @@ public class FileUtil {
             return url.substring(url.lastIndexOf("/") + 1);
         }
         return "";
+    }
+
+    /**
+     * 计算文件MD5值
+     *
+     * @param inputStream
+     * @return
+     */
+    public static String getFileMD5(InputStream inputStream) {
+        if (inputStream == null) {
+            return null;
+        }
+        MessageDigest digest = null;
+        byte[] data = new byte[8 * 1024];
+        int len;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            while ((len = inputStream.read(data)) != -1) {
+                digest.update(data, 0, len);
+            }
+            BigInteger bigInt = new BigInteger(1, digest.digest());
+            return bigInt.toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            CloseableUtil.close(inputStream);
+        }
+    }
+
+    /**
+     * 计算文件SHA1值
+     *
+     * @param inputStream
+     * @return
+     */
+    public static String getFileSha1(InputStream inputStream) {
+        if (inputStream == null) {
+            return null;
+        }
+        MessageDigest digest = null;
+        byte[] data = new byte[8 * 1024];
+        int len;
+        try {
+            digest = MessageDigest.getInstance("SHA-1");
+            while ((len = inputStream.read(data)) != -1) {
+                digest.update(data, 0, len);
+            }
+            BigInteger bigInt = new BigInteger(1, digest.digest());
+            return bigInt.toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            CloseableUtil.close(inputStream);
+        }
     }
 
     /**
