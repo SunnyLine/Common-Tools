@@ -13,13 +13,13 @@ allprojects {
 **在对应的model的gradle文件添加如下依赖**
 ```
 dependencies {
-	        implementation 'com.github.SunnyLine:Common-Tools:1.0.8'
+	        implementation 'com.github.SunnyLine:Common-Tools:1.0.11'
 	}
 ```
 **本Model中，使用了com.android.support:appcompat-v7:28.0.0库，如果项目中包冲突了，如下设置：**
 ```
 dependencies {
-	        implementation('com.github.SunnyLine:Common-Tools:1.0.9') {
+	        implementation('com.github.SunnyLine:Common-Tools:1.0.11') {
         		exclude group: "com.android.support"
     		}
 	}
