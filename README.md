@@ -49,3 +49,4 @@ dependencies {
 |AutoAddZeroFilter|EditText 输入Float类型，输入.自动在前面补0|
 |DateFormatUtil|时间格式转化工具类|
 |ZipUtil|解压工具|
+|PhoneUtil|获取手机信息工具类|

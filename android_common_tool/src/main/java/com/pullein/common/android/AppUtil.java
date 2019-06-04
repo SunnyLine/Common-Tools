@@ -23,6 +23,8 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * Common-Tools<br>
  * describe ：APP 工具
@@ -138,10 +140,15 @@ public class AppUtil {
     }
 
     public static void call(Context context, String phone) {
+        call(context, phone, false);
+    }
+
+    public static void call(Context context, String phone, boolean isDirectCall) {
         Intent intent;
-        intent = new Intent(Intent.ACTION_DIAL);
+        intent = new Intent(isDirectCall ? Intent.ACTION_CALL : Intent.ACTION_DIAL);
         Uri url = Uri.parse("tel:" + phone);
         intent.setData(url);
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -177,7 +184,7 @@ public class AppUtil {
         File file = new File(filePath);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
