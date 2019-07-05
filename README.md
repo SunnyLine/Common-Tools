@@ -60,4 +60,4 @@ textView.setText(TextUtil.fromHtml("Java", "#FF60EE"));
 textView2.setText(TextUtil.fromHtml(TextUtil.getHtml("Today " + TextUtil.getHtml("is ", "#FF60EE") + TextUtil.getHtml("nice ", "#FF6022") + "day !!!")));
 textView3.setText(TextUtil.fromMixedHtml("Today ", TextUtil.getHtml("is ", "#FF60EE"), TextUtil.getHtml("nice ", "#FF6022"), "day !!!"));
 ```
-![TextUtil 效果](\image\textUtil.png)
+![TextUtil 效果](/image/textUtil.png)
