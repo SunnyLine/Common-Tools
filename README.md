@@ -50,3 +50,14 @@ dependencies {
 |DateFormatUtil|时间格式转化工具类|
 |ZipUtil|解压工具|
 |PhoneUtil|获取手机信息工具类|
+|TextUtil|文本工具了，主要用于一段文本中部分字段需要填充颜色|
+
+> eg:
+
+> **TextUtil**
+```
+textView.setText(TextUtil.fromHtml("Java", "#FF60EE"));
+textView2.setText(TextUtil.fromHtml(TextUtil.getHtml("Today " + TextUtil.getHtml("is ", "#FF60EE") + TextUtil.getHtml("nice ", "#FF6022") + "day !!!")));
+textView3.setText(TextUtil.fromMixedHtml("Today ", TextUtil.getHtml("is ", "#FF60EE"), TextUtil.getHtml("nice ", "#FF6022"), "day !!!"));
+```
+![TextUtil 效果](\image\textUtil.png)
