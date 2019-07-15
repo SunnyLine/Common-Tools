@@ -28,18 +28,18 @@ public class DateFormatUtil {
 
     public static final long ONE_DAY = 24 * 60 * 60 * 1000;
     public static final long ONE_HOUR = 60 * 60 * 1000;
-
+    public static final long ONE_MIN = 60 * 1000;
     /**
      * 东八区
      */
     public static final String GMT_8 = "GMT+08:00";
 
     public static String format2GMT(long timeStamp, String formatStr) {
-        return format2GMT(timeStamp, formatStr, GMT_8);
+        return format2GMT(timeStamp, formatStr, null);
     }
 
     public static String format2GMT(Date date, String formatStr) {
-        return format2GMT(date, formatStr, GMT_8);
+        return format2GMT(date, formatStr, null);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -57,7 +57,7 @@ public class DateFormatUtil {
     }
 
     public static long format2UTC(String date, String formatStr) {
-        return format2UTC(date, formatStr, GMT_8);
+        return format2UTC(date, formatStr, null);
     }
 
     @SuppressLint("SimpleDateFormat")
