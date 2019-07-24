@@ -1,1 +1,1 @@
-include ':app', ':android_common_tool'
+include ':android_common_tool', ':demo'

@@ -1,4 +1,4 @@
-package com.pullein.common;
+package com.pullein.demo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.pullein.common", appContext.getPackageName());
+        assertEquals("com.pullein.demo", appContext.getPackageName());
     }
 }
