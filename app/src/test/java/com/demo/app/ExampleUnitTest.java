@@ -1,4 +1,4 @@
-package com.pullein.demo;
+package com.demo.app;
 
 import org.junit.Test;
 

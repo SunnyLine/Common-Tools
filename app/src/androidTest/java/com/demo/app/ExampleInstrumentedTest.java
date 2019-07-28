@@ -1,4 +1,4 @@
-package com.pullein.demo;
+package com.demo.app;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.pullein.demo", appContext.getPackageName());
+        assertEquals("com.demo.app", appContext.getPackageName());
     }
 }
