@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="VerificationCodeView">
+        <attr name="vcv_edit_number" format="integer"/>
+        <attr name="vcv_edit_width" format="dimension"/>
+        <attr name="vcv_edit_text_color" format="color"/>
+        <attr name="vcv_edit_text_size" format="dimension"/>
+        <attr name="vcv_edit_bg" format="reference"/>
+    </declare-styleable>
+</resources>
