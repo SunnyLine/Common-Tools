@@ -6,17 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".VerificationCodeActivity">
 
-    <com.demo.app.VerificationCodeLayout
+    <com.pullein.common.android.view.VerificationCodeLayout
+        android:id="@+id/verificationCodeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:vcv_edit_auto_complete="true"
+        app:vcv_edit_auto_input="true"
         app:vcv_edit_bg="@drawable/edit"
         app:vcv_edit_number="4"
         app:vcv_edit_text_color="#333333"
-        app:vcv_edit_text_size="30sp"
         app:vcv_edit_width="50dp" />
 </android.support.constraint.ConstraintLayout>
