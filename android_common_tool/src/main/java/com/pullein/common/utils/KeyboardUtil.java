@@ -26,6 +26,16 @@ public class KeyboardUtil {
     }
 
     /**
+     * 关闭软键盘
+     */
+    public static void closeKeyBoard(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    /**
      * 显示虚拟键盘
      *
      * @param v     EditView
