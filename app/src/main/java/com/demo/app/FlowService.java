@@ -82,13 +82,14 @@ public class FlowService extends Service {
         mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         mLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         mLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mLayoutParams.x = 0;
-        mLayoutParams.y = 0;
+        mLayoutParams.x = SPUtil.getInt(this, FLOW_X, -windowWidth / 2);
+        mLayoutParams.y = SPUtil.getInt(this, FLOW_Y, 0);
 
         TextView textView = new TextView(this);
         textView.setBackgroundResource(R.color.colorAccent);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
-        textView.setText("window x = " + mLayoutParams.x + "\ny = " + mLayoutParams.y);
+        textView.setText("按住拖动");
+//        textView.setText("window x = " + mLayoutParams.x + "\ny = " + mLayoutParams.y);
         mViewHelper = new ViewHelper(textView);
 
         if (executorService == null) {
@@ -275,22 +276,22 @@ public class FlowService extends Service {
                     y = nowY;
                     mLayoutParams.x = mLayoutParams.x + movedX;
                     mLayoutParams.y = mLayoutParams.y + movedY;
-                    setText(x, y);
+//                    setText(x, y);
                     notifyFlowButton();
                     return true;
                 case MotionEvent.ACTION_UP:
-//                    int changeX = Math.abs(mX - x);
-//                    int changeY = Math.abs(mY - y);
-//                    if (changeX < 10 && changeY < 10) {
-//                        onClick(view);
-//                        return true;
-//                    }
-//                    if (x < (windowWidth / 2)) {
-//                        mLayoutParams.x = -(windowWidth / 2);
-//                    } else {
-//                        mLayoutParams.x = windowWidth - DensityUtil.dip2px(FlowService.this, mViewHelper.getRootView().getMeasuredWidth());
-//                    }
-//                    notifyFlowButton();
+                    int changeX = Math.abs(mX - x);
+                    int changeY = Math.abs(mY - y);
+                    if (changeX < 10 && changeY < 10) {
+                        onClick(view);
+                        return true;
+                    }
+                    if (x < (windowWidth / 2)) {
+                        mLayoutParams.x = -((windowWidth - mViewHelper.getRootView().getMeasuredWidth()) / 2);
+                    } else {
+                        mLayoutParams.x = (windowWidth - mViewHelper.getRootView().getMeasuredWidth()) / 2;
+                    }
+                    notifyFlowButton();
                     SPUtil.putInt(FlowService.this, FLOW_X, mLayoutParams.x);
                     SPUtil.putInt(FlowService.this, FLOW_Y, mLayoutParams.y);
 
