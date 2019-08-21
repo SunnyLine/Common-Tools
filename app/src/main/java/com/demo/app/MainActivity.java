@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button2:
                 //悬浮框
+                startService(new Intent(this,FlowService.class));
                 break;
             case R.id.button3:
                 popupWindow = new CommonPopupWindow(this, R.layout.layout_date,MATCH, DensityUtil.dip2px(this,340));

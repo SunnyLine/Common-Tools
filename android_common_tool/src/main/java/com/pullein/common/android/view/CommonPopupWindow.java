@@ -34,8 +34,16 @@ public class CommonPopupWindow extends PopupWindow {
         init(context, layoutId, MATCH, WRAP, true);
     }
 
+    public CommonPopupWindow(View view) {
+        init(view, MATCH, WRAP, true);
+    }
+
     public CommonPopupWindow(Context context, @LayoutRes int layoutId, int width, int height) {
         this(context, layoutId, width, height, true);
+    }
+
+    public CommonPopupWindow(View view, int width, int height) {
+        this(view, width, height, true);
     }
 
     public CommonPopupWindow(Context context, @LayoutRes int layoutId, int width, int height, boolean isOutsideTouchable) {
@@ -43,10 +51,19 @@ public class CommonPopupWindow extends PopupWindow {
         init(context, layoutId, width, height, isOutsideTouchable);
     }
 
+    public CommonPopupWindow(View view, int width, int height, boolean isOutsideTouchable) {
+        super(view.getContext());
+        init(view, width, height, isOutsideTouchable);
+    }
+
     private void init(Context context, @LayoutRes int layoutId, int width, int height, boolean isOutsideTouchable) {
-        mContextView = LayoutInflater.from(context).inflate(layoutId, null);
-        viewHelper = new ViewHelper(mContextView);
-        setContentView(mContextView);
+        init(LayoutInflater.from(context).inflate(layoutId, null), width, height, isOutsideTouchable);
+    }
+
+    private void init(View view, int width, int height, boolean isOutsideTouchable) {
+        mContextView = view;
+        viewHelper = new ViewHelper(view);
+        setContentView(view);
         //解决Navigation Bar遮挡PopupWindow的解决方法，这个方法不会影响到状态栏的颜色改变
         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         // 设置SelectPicPopupWindow弹出窗体的宽
