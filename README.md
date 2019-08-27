@@ -51,6 +51,12 @@ dependencies {
 |ZipUtil|解压工具|
 |PhoneUtil|获取手机信息工具类|
 |TextUtil|文本工具了，主要用于一段文本中部分字段需要填充颜色|
+|ApplicationHelper|Application 工具类|
+|CrashHandler|异常全局捕获打印，提供回调方法|
+|MulResultListener<S, F> |两个结果回调|
+|NoParameterListener|无参数一个回调方法|
+|OneParameterListener<T>|一个参数一个回调方法|
+|TwoParameterListener<T, E>|两个参数，一个回调方法|
 
 > eg:
 

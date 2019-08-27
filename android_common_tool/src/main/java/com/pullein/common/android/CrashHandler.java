@@ -1,12 +1,11 @@
 package com.pullein.common.android;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Environment;
-import android.widget.Toast;
 
+import com.pullein.common.android.listener.AppCrashListener;
 import com.pullein.common.utils.DateFormatUtil;
 import com.pullein.common.utils.FileUtil;
 import com.pullein.common.utils.HandlerUtil;
@@ -30,31 +29,19 @@ import java.util.Map;
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private Context mContext;
-    private boolean isAutoStartAfterCrash = true;
-    private boolean isPrintErrorLog = true;
     private Thread.UncaughtExceptionHandler mDefaultHandler;
-    private String crashFileSavePath;
 
-    public CrashHandler(Context mContext) {
-        this.mContext = mContext;
+    private String crashFileSavePath;
+    private boolean isPrintErrorLog;
+    private AppCrashListener appCrashListener;
+
+    private CrashHandler(Builder builder) {
+        mContext = builder.context;
+        crashFileSavePath = builder.crashFileSavePath;
+        isPrintErrorLog = builder.isPrintErrorLog;
+        appCrashListener = builder.appCrashListener;
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
-        crashFileSavePath = Environment.getExternalStorageState() + File.separator + "crash" + File.separator;
-    }
-
-    public CrashHandler setAutoStartAfterCrash(boolean autoStartAfterCrash) {
-        isAutoStartAfterCrash = autoStartAfterCrash;
-        return this;
-    }
-
-    public CrashHandler setPrintErrorLog(boolean printErrorLog) {
-        isPrintErrorLog = printErrorLog;
-        return this;
-    }
-
-    public CrashHandler setCrashFileSavePath(String crashFileSavePath) {
-        this.crashFileSavePath = crashFileSavePath;
-        return this;
     }
 
     @Override
@@ -62,7 +49,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (e == null) {
             return;
         }
-        Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出.", Toast.LENGTH_SHORT).show();
         if (isPrintErrorLog) {
             writeLog(e);
         }
@@ -73,23 +59,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         HandlerUtil.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mContext instanceof BaseApplication) {
-                    ((BaseApplication) mContext).closeAllActivity();
+                if (appCrashListener != null) {
+                    appCrashListener.onCrash();
                 }
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
             }
         });
-        if (isAutoStartAfterCrash) {
-            HandlerUtil.runOnUiThreadDelay(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    mContext.startActivity(intent);
-                }
-            }, 2 * 1000);
-        }
+
     }
 
     /**
@@ -100,8 +75,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         try {
             PackageInfo packageInfo = AppUtil.getPackageInfo(mContext);
             if (packageInfo != null) {
-                String versionName = packageInfo.versionName == null ? "null" : packageInfo.versionName;
-                String versionCode = packageInfo.versionCode + "";
+                String versionName = packageInfo.versionName;
+                String versionCode;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    versionCode = String.valueOf(packageInfo.getLongVersionCode());
+                } else {
+                    versionCode = String.valueOf(packageInfo.versionCode);
+                }
                 map.put("versionName", versionName);
                 map.put("versionCode", versionCode);
             }
@@ -144,6 +124,36 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             }
         } catch (Exception ex) {
             Log.d("Failed to save error log " + ex);
+        }
+    }
+
+    class Builder {
+        String crashFileSavePath;
+        boolean isPrintErrorLog = true;
+        AppCrashListener appCrashListener;
+        Context context;
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder setAppCrashListener(AppCrashListener appCrashListener) {
+            this.appCrashListener = appCrashListener;
+            return this;
+        }
+
+        public Builder setCrashFileSavePath(String crashFileSavePath) {
+            this.crashFileSavePath = crashFileSavePath;
+            return this;
+        }
+
+        public Builder setPrintErrorLog(boolean printErrorLog) {
+            isPrintErrorLog = printErrorLog;
+            return this;
+        }
+
+        public CrashHandler build() {
+            return new CrashHandler(this);
         }
     }
 }

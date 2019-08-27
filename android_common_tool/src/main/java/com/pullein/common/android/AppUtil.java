@@ -20,7 +20,6 @@ import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -34,25 +33,19 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
  */
 public class AppUtil {
     public static boolean isMainProcess(Context context) {
-        String procName = getCurrentProcessName(context);
-        return procName == null || procName.equalsIgnoreCase(context.getPackageName());
+        String processName = getCurrentProcessName(context);
+        return processName == null || processName.equalsIgnoreCase(context.getPackageName());
     }
 
     public static String getCurrentProcessName(Context context) {
         int pid = Process.myPid();
         ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        Iterator var3 = mActivityManager.getRunningAppProcesses().iterator();
-
-        ActivityManager.RunningAppProcessInfo appProcess;
-        do {
-            if (!var3.hasNext()) {
-                return null;
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
             }
-
-            appProcess = (ActivityManager.RunningAppProcessInfo) var3.next();
-        } while (appProcess.pid != pid);
-
-        return appProcess.processName;
+        }
+        return null;
     }
 
     public static boolean isRunningForeground(Context context) {

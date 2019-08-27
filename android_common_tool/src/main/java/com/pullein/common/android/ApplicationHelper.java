@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.pullein.common.android.listener.AppProcessStateListener;
 import com.pullein.common.utils.CollectionUtil;
 import com.pullein.common.utils.Log;
 
@@ -11,29 +12,22 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Common-Tools<br>
  * describe ：
  *
  * @author xugang
- * @date 2019/6/2
+ * @date 2019/8/27
  */
-public class BaseApplication extends Application {
+public class ApplicationHelper {
     private List<Activity> activityList = Collections.synchronizedList(new LinkedList<Activity>());
+    private AtomicInteger count = new AtomicInteger(0);
+    private AppProcessStateListener appProcessStateListener;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        registerActivityLifecycle();
-        captureException();
-    }
-
-    protected void captureException() {
-        CrashHandler crashHandler = new CrashHandler(this);
-        crashHandler.setAutoStartAfterCrash(true)
-                .setPrintErrorLog(true);
-
+    public void setAppProcessStateListener(AppProcessStateListener appProcessStateListener) {
+        this.appProcessStateListener = appProcessStateListener;
     }
 
     /**
@@ -68,10 +62,19 @@ public class BaseApplication extends Application {
     }
 
     /**
+     * APP是否在前台
+     *
+     * @return
+     */
+    public boolean isAppForeground() {
+        return count.get() != 0;
+    }
+
+    /**
      * 注册Activity生命周期
      */
-    public void registerActivityLifecycle() {
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+    public void registerActivityLifecycle(Application application) {
+        application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 if (activity != null) {
@@ -87,6 +90,12 @@ public class BaseApplication extends Application {
                 if (activity != null) {
                     Log.i(activity.getClass().getSimpleName() + "\tonActivityStarted");
                 }
+                if (count.get() == 0) {
+                    if (appProcessStateListener != null) {
+                        appProcessStateListener.onProcessForeground();
+                    }
+                }
+                count.addAndGet(1);
             }
 
             @Override
@@ -107,6 +116,12 @@ public class BaseApplication extends Application {
             public void onActivityStopped(Activity activity) {
                 if (activity != null) {
                     Log.i(activity.getClass().getSimpleName() + "\tonActivityStopped");
+                }
+                count.addAndGet(-1);
+                if (count.get() == 0) {
+                    if (appProcessStateListener != null) {
+                        appProcessStateListener.onProcessBackground();
+                    }
                 }
             }
 

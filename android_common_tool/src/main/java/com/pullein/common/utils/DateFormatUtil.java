@@ -29,6 +29,8 @@ public class DateFormatUtil {
     public static final long ONE_DAY = 24 * 60 * 60 * 1000;
     public static final long ONE_HOUR = 60 * 60 * 1000;
     public static final long ONE_MIN = 60 * 1000;
+    public static final long ONE_SECOND = 1000;
+
     /**
      * 东八区
      */

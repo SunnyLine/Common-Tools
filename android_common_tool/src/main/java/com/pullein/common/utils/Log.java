@@ -8,10 +8,14 @@ package com.pullein.common.utils;
  * @date 2019/4/23
  */
 public class Log {
-    public static boolean isPrint = true;
+    private static boolean isPrint = true;
     private static String defaultTag = "======Log======";
 
     private Log() {
+    }
+
+    public static void setPrintEnable(boolean isDebug) {
+        Log.isPrint = isDebug;
     }
 
     public static void setTag(String tag) {
