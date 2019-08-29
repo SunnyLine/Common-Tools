@@ -51,7 +51,7 @@ public class ViewHelper {
             public void onGlobalLayout() {
                 onGlobalLayoutListener.onGlobalLayout();
                 if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 } else {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
