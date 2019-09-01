@@ -8,7 +8,7 @@ package com.pullein.common.android.listener;
  * @date 2019/8/26
  */
 public interface MulResultListener<S, F> {
-    void onSuccess(S s);
+    void onResult1(S s);
 
-    void onFail(F f);
+    void onResult2(F f);
 }

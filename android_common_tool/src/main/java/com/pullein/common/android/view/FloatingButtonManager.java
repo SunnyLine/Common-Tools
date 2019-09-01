@@ -41,7 +41,6 @@ public class FloatingButtonManager {
     private final static String FLOW_Y = "flow_y";
 
     private View.OnClickListener mOnClickListener;
-    private View.OnLongClickListener mOnLongClickListener;
 
     public FloatingButtonManager(View view) {
         Context context = view.getContext();
@@ -74,11 +73,6 @@ public class FloatingButtonManager {
 
     public void setOnClickListener(View.OnClickListener mOnClickListener) {
         this.mOnClickListener = mOnClickListener;
-    }
-
-    public void setOnLongClickListener(View.OnLongClickListener mOnLongClickListener) {
-        this.mOnLongClickListener = mOnLongClickListener;
-        mViewHelper.getRootView().setOnLongClickListener(mOnLongClickListener);
     }
 
     public void hideFlowButton() {
