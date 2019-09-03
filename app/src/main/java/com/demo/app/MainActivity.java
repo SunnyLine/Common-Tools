@@ -44,13 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "点击了悬浮框", Toast.LENGTH_SHORT).show();
             }
         });
-        floatingButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(MainActivity.this, "长按了悬浮框", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
     }
 
     @Override
@@ -93,6 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 wvDate.setData(Arrays.asList("今天", "明天"));
                 wvTime.setData(Arrays.asList("9:00~10:00", "10:00~11:00", "11:00~12:00", "13:00~14:00", "14:00~15:00", "15:00~16:00"));
                 popupWindow.showAsDropDown(button3);
+                break;
+            case R.id.button4:
+                startActivity(new Intent(this, WebViewActivity.class));
                 break;
             default:
                 break;

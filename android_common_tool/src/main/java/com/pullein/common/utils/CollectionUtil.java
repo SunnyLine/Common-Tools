@@ -15,39 +15,52 @@ import java.util.Set;
  * @date 2019/4/23
  */
 public class CollectionUtil {
+
     public static <T> boolean isEmpty(T... array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(List list) {
-        return list == null || list.isEmpty();
+    public static <T> boolean isEmpty(Collection<T> collection) {
+        return collection == null || collection.isEmpty();
     }
 
-    public static boolean isEmpty(Map map) {
+    public static <K, V> boolean isEmpty(Map<K, V> map) {
         return map == null || map.isEmpty();
     }
 
-    public static void remove(List list, int index) {
-        if (!isEmpty(list) && index >= 0 && index < list.size()) {
+    public static <T> void remove(List<T> list, int index) {
+        try {
             list.remove(index);
-        } else {
-            Log.d("LIST ERROR ", list + " remove " + index);
+        } catch (Exception e) {
+            Log.e("remove" + e.toString());
         }
     }
 
     public static void remove(List list, Object obj) {
-        if (!isEmpty(list) && null != obj) {
+        try {
             list.remove(obj);
+        } catch (Exception e) {
+            Log.e("remove" + e.toString());
         }
     }
 
-    public static void printList(List<? extends Object> list) {
+    public static <T> void printList(List<T> list) {
         if (isEmpty(list)) {
-            Log.d("CollectionUtil", "list is Empty");
+            Log.d("list is Empty");
             return;
         }
-        for (Object o : list) {
-            Log.d("CollectionUtil", o.toString());
+        for (T t : list) {
+            Log.d(t);
+        }
+    }
+
+    public static <K, V> void printMap(Map<K, V> map) {
+        if (isEmpty(map)) {
+            Log.d("map is empty");
+            return;
+        }
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            Log.d("key = " + entry.getKey() + "\tvalue = " + entry.getValue());
         }
     }
 
@@ -59,12 +72,9 @@ public class CollectionUtil {
      * @return
      */
     public static <T> Collection<T> removeDuplicateData(Collection<T> list) {
-        if (list != null) {
-            Set<T> uniques = new HashSet<>();
-            for (T t : list) {
-                uniques.add(t);
-            }
-            return new ArrayList<T>(uniques);
+        if (!isEmpty(list)) {
+            Set<T> uniques = new HashSet<>(list);
+            return new ArrayList<>(uniques);
         }
         return null;
     }

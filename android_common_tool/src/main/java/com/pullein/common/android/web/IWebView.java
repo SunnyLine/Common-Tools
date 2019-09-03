@@ -2,6 +2,8 @@ package com.pullein.common.android.web;
 
 import android.net.Uri;
 
+import java.util.Map;
+
 public interface IWebView {
     void callNativePhone(Uri phoneNumUri);
     void startActivityByUri(Uri uri);
@@ -18,7 +20,9 @@ public interface IWebView {
     void hideProgressBar();
     void showProgressBar(int progress);
     void loadUrl(String url);
+    void loadUrl(String url, Map<String,String> head);
     void reload();
+    void stopLoading();
 
     void onPageStarted(String url);
     void shouldOverrideUrlLoading(String url);

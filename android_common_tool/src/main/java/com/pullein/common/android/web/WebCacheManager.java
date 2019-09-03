@@ -16,16 +16,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class WebCacheManager {
     private static final String TAG = ">>>>>XWebView-Interceptor";
@@ -118,23 +117,26 @@ public class WebCacheManager {
         String remoteUrl = requestUri.toString();
         Log.d(TAG, "无现有缓存可用，开始下载:" + remoteUrl);
         File localFile = null;
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(remoteUrl)
-                .build();
         try {
+            URL url = new URL(remoteUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            InputStream is = null;
+            if (connection.getResponseCode() == 200) {
+                connection.getInputStream();
+            }
             String path = context.getCacheDir().getPath() + File.separator + "h5Cache" + File.separator;
             FileUtil.createFolder(path);
             String name = remoteUrl.substring(remoteUrl.lastIndexOf("/") + 1);
-            Response response = okHttpClient.newCall(request).execute();
-            InputStream is = response.body().byteStream();
             localFile = FileUtil.createFile(path + name, is);
             SPUtil.putString(context, remoteUrl, path + name);
             Log.d(TAG, "下载完成，缓存文件保存路径" + localFile.getPath());
+        } catch (MalformedURLException e) {
+            Log.d(TAG, "URL异常，下载失败：" + remoteUrl + "\t" + e.toString());
         } catch (IOException e) {
-            Log.d(TAG, "IO 异常，下载失败：" + remoteUrl + "\t" + e.getMessage());
+            Log.d(TAG, "IO 异常，下载失败：" + remoteUrl + "\t" + e.toString());
         } catch (Exception e) {
-            Log.d(TAG, "其他异常，下载失败：" + remoteUrl + "\t" + e.getMessage());
+            Log.d(TAG, "其他异常，下载失败：" + remoteUrl + "\t" + e.toString());
         }
         return localFile;
     }
@@ -146,7 +148,7 @@ public class WebCacheManager {
             return false;
         }
         if (requestUri.getHost() == null || !whiteListHost.contains(requestUri.getHost())) {
-            Log.d(TAG, "外部链接不做拦截");
+            Log.d(TAG, "外部链接不做拦截 cur host = " + requestUri.getHost());
             return false;
         }
         String remoteUrl = requestUri.toString();

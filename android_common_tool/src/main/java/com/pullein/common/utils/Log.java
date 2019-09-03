@@ -9,7 +9,7 @@ package com.pullein.common.utils;
  */
 public class Log {
     private static boolean isPrint = true;
-    private static String defaultTag = "======Log======";
+    private static String defaultTag = "======Common=Tool=Log======>";
 
     private Log() {
     }
@@ -18,8 +18,21 @@ public class Log {
         Log.isPrint = isDebug;
     }
 
-    public static void setTag(String tag) {
-        defaultTag = tag;
+
+    public static int v(Object o) {
+        return isPrint && o != null ? android.util.Log.v(defaultTag, o.toString()) : -1;
+    }
+
+    public static int v(String m) {
+        return isPrint && m != null ? android.util.Log.v(defaultTag, m) : -1;
+    }
+
+    public static int d(Object o) {
+        return isPrint && o != null ? android.util.Log.d(defaultTag, o.toString()) : -1;
+    }
+
+    public static int d(String m) {
+        return isPrint && m != null ? android.util.Log.d(defaultTag, m) : -1;
     }
 
     public static int i(Object o) {
@@ -28,6 +41,22 @@ public class Log {
 
     public static int i(String m) {
         return isPrint && m != null ? android.util.Log.i(defaultTag, m) : -1;
+    }
+
+    public static int w(Object o) {
+        return isPrint && o != null ? android.util.Log.w(defaultTag, o.toString()) : -1;
+    }
+
+    public static int w(String m) {
+        return isPrint && m != null ? android.util.Log.w(defaultTag, m) : -1;
+    }
+
+    public static int e(Object o) {
+        return isPrint && o != null ? android.util.Log.e(defaultTag, o.toString()) : -1;
+    }
+
+    public static int e(String m) {
+        return isPrint && m != null ? android.util.Log.e(defaultTag, m) : -1;
     }
 
     public static int v(String tag, String msg) {

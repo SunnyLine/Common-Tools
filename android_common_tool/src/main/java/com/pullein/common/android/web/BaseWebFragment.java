@@ -2,35 +2,38 @@ package com.pullein.common.android.web;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.AbsoluteLayout;
 import android.widget.Toast;
 
-import com.pullein.common.R;
 import com.pullein.common.android.listener.MulResultListener;
+import com.pullein.common.utils.CollectionUtil;
 import com.pullein.common.utils.DateFormatUtil;
+import com.pullein.common.utils.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 import static com.pullein.common.utils.DateFormatUtil.PATTERN_YMDHMS;
 
-public abstract class WebFragment extends Fragment implements IWebView, MulResultListener<ValueCallback<Uri>, ValueCallback<Uri[]>> {
+public abstract class BaseWebFragment extends Fragment implements IWebView, MulResultListener<ValueCallback<Uri>, ValueCallback<Uri[]>> {
     protected MyWebChromeClient myWebChromeClient;
     protected MyWebViewClient myWebViewClient;
     protected MyDownloadListener myDownloadListener;
@@ -42,10 +45,13 @@ public abstract class WebFragment extends Fragment implements IWebView, MulResul
     private final static int FCR = 1;
 
     protected WebView mWebView;
+    protected View mProgressBar;
 
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface", "SetJavaScriptEnabled"})
-    protected void initWebView(View viewGroup,@IdRes int viewId) {
+    protected void initWebView(View viewGroup, @IdRes int viewId) {
+        initProgressBar();
         mWebView = viewGroup.findViewById(viewId);
+        mWebView.addView(mProgressBar, 0, 5);
         mWebView.removeJavascriptInterface("accessibility");
         mWebView.removeJavascriptInterface("accessibilityTraversal");
         mWebView.removeJavascriptInterface("searchBoxJavaBridge_");
@@ -91,6 +97,11 @@ public abstract class WebFragment extends Fragment implements IWebView, MulResul
         mWebView.setDownloadListener(myDownloadListener);
     }
 
+    protected void initProgressBar() {
+        mProgressBar = new View(getContext());
+        mProgressBar.setBackgroundColor(Color.parseColor("#41acff"));
+    }
+
     @Override
     public void callNativePhone(Uri phoneNumUri) {
         startActivity(new Intent(Intent.ACTION_DIAL, phoneNumUri)
@@ -131,23 +142,94 @@ public abstract class WebFragment extends Fragment implements IWebView, MulResul
     }
 
     @Override
-    public void onPageStarted(String url) {
+    public void setWebTitle(String title) {
+        Log.d("setWebTitle title = " + title);
+    }
 
+    @Override
+    public void onPageStarted(String url) {
+        Log.d("onPageStarted url = " + url);
     }
 
     @Override
     public void shouldOverrideUrlLoading(String url) {
-
+        Log.d("shouldOverrideUrlLoading url = " + url);
     }
 
     @Override
     public void onProgress(int progress) {
-
+        Log.d("onProgress progress = " + progress);
     }
 
     @Override
     public void onPageFinished(String url) {
+        Log.d("onPageFinished url = " + url);
+    }
 
+    @Override
+    public void loadUrl(String url) {
+        loadUrl(url, null);
+    }
+
+    @Override
+    public void loadUrl(String url, Map<String, String> head) {
+        Log.d("loadUrl url = " + url);
+        CollectionUtil.printMap(head);
+        if (mWebView != null && !TextUtils.isEmpty(url)) {
+            if (CollectionUtil.isEmpty(head)) {
+                mWebView.loadUrl(url);
+            } else {
+                mWebView.loadUrl(url, head);
+            }
+        }
+    }
+
+    @Override
+    public void reload() {
+        if (mWebView != null) {
+            Log.d("webFragment reload");
+            mWebView.reload();
+        }
+    }
+
+    @Override
+    public void stopLoading() {
+        if (mWebView != null) {
+            Log.d("webFragment stopLoading");
+            mWebView.stopLoading();
+        }
+    }
+
+    @Override
+    public void showWebView() {
+        if (mWebView != null) {
+            mWebView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideWebView() {
+        if (mWebView != null) {
+            mWebView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showProgressBar(int progress) {
+        if (mProgressBar != null && getActivity() != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            DisplayMetrics metric = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(metric);
+            int screenWidth = metric.widthPixels;
+            mProgressBar.setLayoutParams(new AbsoluteLayout.LayoutParams(screenWidth * progress / 100, 5, 0, 0));
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
