@@ -27,10 +27,18 @@ import java.util.List;
 import java.util.Map;
 
 public class WebCacheManager {
-    private static final String TAG = ">>>>>XWebView-Interceptor";
+    private volatile static WebCacheManager mWebCacheManager = new WebCacheManager();
+    private static final String TAG = ">>>>>XWebView-Interceptor>>>>>";
     private static Map<String, String> interceptMap = new HashMap<>();
-    private static List<String> whiteListHost = new ArrayList<>();
-    private static boolean cacheEnable = false;
+    private List<String> whiteListHost = new ArrayList<>();
+    private boolean cacheEnable = false;
+
+    private WebCacheManager() {
+    }
+
+    public static WebCacheManager getInstance() {
+        return mWebCacheManager;
+    }
 
     static {
         interceptMap.put(".js", "application/javascript");
@@ -49,73 +57,73 @@ public class WebCacheManager {
      *
      * @param hosts
      */
-    public synchronized static void init(String... hosts) {
+    public synchronized void setCacheWhiteHost(String... hosts) {
         whiteListHost.clear();
         if (!CollectionUtil.isEmpty(hosts)) {
             whiteListHost.addAll(Arrays.asList(hosts));
         }
     }
 
-    public synchronized static void setCacheEnable(boolean cacheEnable) {
-        WebCacheManager.cacheEnable = cacheEnable;
+    public synchronized void setCacheEnable(boolean cacheEnable) {
+        this.cacheEnable = cacheEnable;
     }
 
-    public synchronized static void clearLocalCache(Context context) {
+    public synchronized void clearLocalCache(Context context) {
         String h5CachePath = context.getCacheDir().getPath() + File.separator + "h5Cache" + File.separator;
         try {
             File file = new File(h5CachePath);
             FileUtil.deleteFolder(file);
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            Log.e(TAG + e.toString());
         }
     }
 
-    public synchronized static WebResourceResponse shouldInterceptRequest(final Context context, Uri requestUri) {
+    public synchronized WebResourceResponse shouldInterceptRequest(final Context context, Uri requestUri) {
         final String remoteUrl = requestUri.toString();
-        Log.d(TAG, "拦截时间:" + System.currentTimeMillis() + "\t拦截地址:" + remoteUrl);
+        Log.d(TAG + "拦截时间:" + System.currentTimeMillis() + "\t拦截地址:" + remoteUrl);
         if (isInterceptor(requestUri)) {
-            Log.d(TAG, "符合拦截条件，开始拦截");
+            Log.d(TAG + "符合拦截条件，开始拦截");
             String filePath = SPUtil.getString(context, remoteUrl);
             File localFile;
             if (TextUtils.isEmpty(filePath)) {
                 //本地没有则去网络下载
-                Log.d(TAG, "本地无缓存，开始网络下载......");
+                Log.d(TAG + "本地无缓存，开始网络下载......");
                 localFile = download(context, requestUri);
                 if (localFile == null) {
-                    Log.d(TAG, "本地无缓存，下载失败");
+                    Log.d(TAG + "本地无缓存，下载失败");
                 }
             } else {
                 //SP中有记录，本地文件缺失则重新下载
                 localFile = new File(filePath);
                 if (!localFile.exists()) {
-                    Log.d(TAG, "本地缓存缺失，无法使用，重新下载......");
+                    Log.d(TAG + "本地缓存缺失，无法使用，重新下载......");
                     localFile = download(context, requestUri);
                     if (localFile == null) {
-                        Log.d(TAG, "下载失败");
+                        Log.d(TAG + "下载失败");
                     }
                 } else {
-                    Log.d(TAG, "----本地有缓存记录----");
+                    Log.d(TAG + "----本地有缓存记录----");
                 }
             }
             if (localFile == null || !localFile.exists()) {
-                Log.d(TAG, "Over--网络下载失败或者本地文件缺失，无法使用缓存!!!");
+                Log.d(TAG + "Over--网络下载失败或者本地文件缺失，无法使用缓存!!!");
                 return null;
             }
             try {
                 return new WebResourceResponse(getMimeType(remoteUrl), "UTF-8", new FileInputStream(localFile));
             } catch (FileNotFoundException e) {
-                Log.d(TAG, "存在缓存文件，发生异常");
+                Log.d(TAG + "存在缓存文件，发生异常");
             }
         } else {
-            Log.d(TAG, "不符合拦截条件 remoteUrl ： " + remoteUrl);
+            Log.d(TAG + "不符合拦截条件 remoteUrl ： " + remoteUrl);
         }
         return null;
     }
 
     @SuppressLint("CheckResult")
-    private static File download(final Context context, final Uri requestUri) {
+    private File download(final Context context, final Uri requestUri) {
         String remoteUrl = requestUri.toString();
-        Log.d(TAG, "无现有缓存可用，开始下载:" + remoteUrl);
+        Log.d(TAG + "无现有缓存可用，开始下载:" + remoteUrl);
         File localFile = null;
         try {
             URL url = new URL(remoteUrl);
@@ -130,25 +138,25 @@ public class WebCacheManager {
             String name = remoteUrl.substring(remoteUrl.lastIndexOf("/") + 1);
             localFile = FileUtil.createFile(path + name, is);
             SPUtil.putString(context, remoteUrl, path + name);
-            Log.d(TAG, "下载完成，缓存文件保存路径" + localFile.getPath());
+            Log.d(TAG + "下载完成，缓存文件保存路径" + localFile.getPath());
         } catch (MalformedURLException e) {
-            Log.d(TAG, "URL异常，下载失败：" + remoteUrl + "\t" + e.toString());
+            Log.d(TAG + "URL异常，下载失败：" + remoteUrl + "\t" + e.toString());
         } catch (IOException e) {
-            Log.d(TAG, "IO 异常，下载失败：" + remoteUrl + "\t" + e.toString());
+            Log.d(TAG + "IO 异常，下载失败：" + remoteUrl + "\t" + e.toString());
         } catch (Exception e) {
-            Log.d(TAG, "其他异常，下载失败：" + remoteUrl + "\t" + e.toString());
+            Log.d(TAG + "其他异常，下载失败：" + remoteUrl + "\t" + e.toString());
         }
         return localFile;
     }
 
-    private static boolean isInterceptor(Uri requestUri) {
+    private boolean isInterceptor(Uri requestUri) {
         if (!cacheEnable) {
             //缓存不可用
-            Log.d(TAG, "缓存不可用");
+            Log.d(TAG + "缓存不可用");
             return false;
         }
         if (requestUri.getHost() == null || !whiteListHost.contains(requestUri.getHost())) {
-            Log.d(TAG, "外部链接不做拦截 cur host = " + requestUri.getHost());
+            Log.d(TAG + "外部链接不做拦截 cur host = " + requestUri.getHost());
             return false;
         }
         String remoteUrl = requestUri.toString();
@@ -156,14 +164,14 @@ public class WebCacheManager {
             return false;
         }
         String suffixName = remoteUrl.substring(remoteUrl.lastIndexOf("."));
-        Log.d(TAG, "suffixName = " + suffixName);
+        Log.d(TAG + "suffixName = " + suffixName);
         return interceptMap.containsKey(suffixName);
     }
 
     /**
      * @see <a href=" http://tool.oschina.net/commons">Http Content-type 对照表</a>
      */
-    private static String getMimeType(String remoteUrl) {
+    private String getMimeType(String remoteUrl) {
         if (TextUtils.isEmpty(remoteUrl) || !remoteUrl.contains(".")) {
             return null;
         }

@@ -13,8 +13,6 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        WebCacheManager.init("ets2.cn","www.baidu.com");
-        WebCacheManager.setCacheEnable(true);
         FragmentHelper.add(getSupportFragmentManager(),R.id.container,new WebViewFragment());
     }
 }

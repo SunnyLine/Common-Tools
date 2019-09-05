@@ -1,6 +1,7 @@
 package com.pullein.common.utils;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -35,8 +36,12 @@ public class BitmapUtil {
     }
 
     public static byte[] bitmapToByte(Bitmap b) {
+        return bitmapToByte(b, 100);
+    }
+
+    public static byte[] bitmapToByte(Bitmap b, int quality) {
         ByteArrayOutputStream o = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.PNG, 100, o);
+        b.compress(Bitmap.CompressFormat.PNG, quality, o);
         return o.toByteArray();
     }
 
@@ -185,12 +190,14 @@ public class BitmapUtil {
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        int h = options.outHeight;
-        int w = options.outWidth;
+        return calculateInSampleSize(options.outWidth, options.outHeight, reqWidth, reqHeight);
+    }
+
+    public static int calculateInSampleSize(int oldWidth, int oldHeight, int reqWidth, int reqHeight) {
         int inSampleSize = 0;
-        if (h > reqHeight || w > reqWidth) {
-            float ratioW = (float) w / (float) reqWidth;
-            float ratioH = (float) h / (float) reqHeight;
+        if (oldHeight > reqHeight || oldWidth > reqWidth) {
+            float ratioW = (float) oldWidth / (float) reqWidth;
+            float ratioH = (float) oldHeight / (float) reqHeight;
             inSampleSize = (int) Math.min(ratioH, ratioW);
         }
 
@@ -198,7 +205,38 @@ public class BitmapUtil {
         return inSampleSize;
     }
 
-    public static Bitmap getSmallBitmap(String filePath, int reqWidth, int reqHeight) {
+    public static Bitmap decodeBitmap(byte[] data, int inSampleSize) {
+        // 调用上面定义的方法计算inSampleSize值
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = inSampleSize;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        return BitmapFactory.decodeByteArray(data, 0, data.length, options);
+    }
+
+    public static Bitmap decodeBitmap(Bitmap bitmap, int reqWidth, int reqHeight) {
+        // 调用上面定义的方法计算inSampleSize值
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = calculateInSampleSize(bitmap.getWidth(), bitmap.getHeight(), reqWidth, reqHeight);
+        byte[] data = bitmapToByte(bitmap);
+        return BitmapFactory.decodeByteArray(data, 0, data.length, options);
+    }
+
+    public static Bitmap decodeBitmap(Resources res, int resId,
+                                      int reqWidth, int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
+    public static Bitmap decodeBitmap(String filePath, int reqWidth, int reqHeight) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);
@@ -207,8 +245,27 @@ public class BitmapUtil {
         return BitmapFactory.decodeFile(filePath, options);
     }
 
-    public byte[] compressBitmapToBytes(String filePath, int reqWidth, int reqHeight, int quality) {
-        Bitmap bitmap = getSmallBitmap(filePath, reqWidth, reqHeight);
+    /**
+     * 压缩图片，压缩到某个大小以内
+     *
+     * @param bitmap
+     * @param maxImgSize 最大大小
+     * @return
+     */
+    public static Bitmap compressBitmap(Bitmap bitmap, int maxImgSize) {
+        Bitmap bitmap1 = decodeBitmap(bitmap, 480, 800);
+        byte[] data = bitmapToByte(bitmap, 100);
+        double fileLength = data.length / 1024;
+        while (fileLength > maxImgSize) {
+            bitmap1 = decodeBitmap(data, 2);
+            data = bitmapToByte(bitmap1);
+            fileLength = data.length / 1024;
+        }
+        return bitmap1;
+    }
+
+    public byte[] compressBitmap(String filePath, int reqWidth, int reqHeight, int quality) {
+        Bitmap bitmap = decodeBitmap(filePath, reqWidth, reqHeight);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         byte[] bytes = baos.toByteArray();
@@ -216,11 +273,20 @@ public class BitmapUtil {
         return bytes;
     }
 
-    public byte[] compressBitmapSmallTo(String filePath, int reqWidth, int reqHeight, int maxLenth) {
+    public byte[] compressBitmap(Bitmap bitmap, int reqWidth, int reqHeight, int quality) {
+        Bitmap newBitmap = decodeBitmap(bitmap, reqWidth, reqHeight);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        newBitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        byte[] bytes = baos.toByteArray();
+        newBitmap.recycle();
+        return bytes;
+    }
+
+    public byte[] compressBitmapSmallTo(String filePath, int reqWidth, int reqHeight, int maxLength) {
         int quality = 100;
 
         byte[] bytes;
-        for (bytes = this.compressBitmapToBytes(filePath, reqWidth, reqHeight, quality); bytes.length > maxLenth && quality > 0; bytes = this.compressBitmapToBytes(filePath, reqWidth, reqHeight, quality)) {
+        for (bytes = this.compressBitmap(filePath, reqWidth, reqHeight, quality); bytes.length > maxLength && quality > 0; bytes = this.compressBitmap(filePath, reqWidth, reqHeight, quality)) {
             quality /= 2;
         }
 
@@ -228,7 +294,7 @@ public class BitmapUtil {
     }
 
     public byte[] compressBitmapQuikly(String filePath) {
-        return this.compressBitmapToBytes(filePath, 480, 800, 50);
+        return this.compressBitmap(filePath, 480, 800, 50);
     }
 
     public byte[] compressBitmapQuiklySmallTo(String filePath, int maxLenth) {

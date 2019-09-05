@@ -2,10 +2,13 @@ package com.pullein.common.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import java.lang.reflect.Method;
 
 /**
  * Common-Tools<br>
@@ -33,6 +36,34 @@ public class KeyboardUtil {
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    /**
+     * 设置系统键盘不可见
+     *
+     * @param editText
+     */
+    public static void setKeyBoardHide(Context context, EditText editText) {
+        int sdkInt = Build.VERSION.SDK_INT;
+        int sdkVersion = 11;
+        if (sdkInt >= sdkVersion) {
+            try {
+                Class<EditText> cls = EditText.class;
+                Method setShowSoftInputOnFocus;
+                setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+                setShowSoftInputOnFocus.setAccessible(true);
+                setShowSoftInputOnFocus.invoke(editText, false);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // 如果软键盘已经显示，则隐藏
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
     /**

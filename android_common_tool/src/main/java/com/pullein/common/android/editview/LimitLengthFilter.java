@@ -1,7 +1,9 @@
-package com.pullein.common.android.filter;
+package com.pullein.common.android.editview;
 
 import android.text.InputFilter;
 import android.text.Spanned;
+
+import com.pullein.common.android.listener.NoParameterListener;
 
 /**
  * Common-Tools<br>
@@ -13,23 +15,23 @@ import android.text.Spanned;
 public class LimitLengthFilter implements InputFilter {
 
     private int maxLength;
-    private OverstepListener overstepListener;
+    private NoParameterListener mListener;
 
     public LimitLengthFilter(int maxLength) {
         this(maxLength, null);
     }
 
-    public LimitLengthFilter(int maxLength, OverstepListener overstepListener) {
+    public LimitLengthFilter(int maxLength, NoParameterListener mListener) {
         this.maxLength = maxLength;
-        this.overstepListener = overstepListener;
+        this.mListener = mListener;
     }
 
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         int keep = maxLength - (dest.length() - (dend - dstart));
         if (keep <= 0) {
-            if (overstepListener != null) {
-                overstepListener.onOverstep();
+            if (mListener != null) {
+                mListener.onResult();
             }
             return "";
         } else if (keep >= end - start) {
@@ -43,15 +45,11 @@ public class LimitLengthFilter implements InputFilter {
                     return "";
                 }
             }
-            if (overstepListener != null) {
-                overstepListener.onOverstep();
+            if (mListener != null) {
+                mListener.onResult();
             }
             return source.subSequence(start, keep);
         }
-    }
-
-    interface OverstepListener {
-        void onOverstep();
     }
 }
 

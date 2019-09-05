@@ -59,6 +59,10 @@ dependencies {
 |TwoParameterListener<T, E>|两个参数，一个回调方法|
 |FloatingButtonManager|悬浮按钮管理类，添加一个View即可做到悬浮按钮，可以显示、隐藏、添加、删除|
 |WebFragment|网页Fragment，实际使用需要继承|
+|SimpleTextWatcher|简单的TextWatcher 空实现内部方法|
+|StatusBarUtil|状态栏工具类|
+|CommonInputFilter|通用输入框过滤器，传入正则和回调|
+|CleanableEditText|自动显示删除按钮，使用drawableRight|
 
 > eg:
 

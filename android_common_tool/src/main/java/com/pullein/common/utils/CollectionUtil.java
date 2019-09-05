@@ -36,9 +36,9 @@ public class CollectionUtil {
         }
     }
 
-    public static void remove(List list, Object obj) {
+    public static <T> void remove(List<T> list, T t) {
         try {
-            list.remove(obj);
+            list.remove(t);
         } catch (Exception e) {
             Log.e("remove" + e.toString());
         }

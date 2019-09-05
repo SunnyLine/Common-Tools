@@ -11,7 +11,7 @@ import android.os.Looper;
  * @date 2019/4/23
  */
 public class HandlerUtil {
-    public static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
 
     public HandlerUtil() {
     }

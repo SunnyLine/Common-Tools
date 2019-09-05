@@ -18,6 +18,7 @@ import android.provider.Settings;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.util.List;
@@ -102,6 +103,25 @@ public class AppUtil {
     public static void openSetting(Context context, String action) {
         Intent mIntent = new Intent(action);
         context.startActivity(mIntent);
+    }
+
+    /**
+     * 打开悬浮框权限设置页面
+     *
+     * @param context
+     * @param packageName BuildConfig.APPLICATION_ID
+     */
+    public static void openOverlayPermissionSetting(Context context, String packageName) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        try {
+            if (!TextUtils.isEmpty(packageName)) {
+                String uri = "package:" + packageName;
+                intent.setData(Uri.parse(uri));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        context.startActivity(intent);
     }
 
     /**

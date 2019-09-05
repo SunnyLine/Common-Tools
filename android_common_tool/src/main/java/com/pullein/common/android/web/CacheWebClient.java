@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 public class CacheWebClient extends WebViewClient {
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-        return WebCacheManager.shouldInterceptRequest(view.getContext(), Uri.parse(url));
+        return WebCacheManager.getInstance().shouldInterceptRequest(view.getContext(), Uri.parse(url));
     }
 
 }

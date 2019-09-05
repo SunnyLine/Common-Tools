@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
@@ -100,6 +99,16 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
     protected void initProgressBar() {
         mProgressBar = new View(getContext());
         mProgressBar.setBackgroundColor(Color.parseColor("#41acff"));
+    }
+
+    @Override
+    public void setWebCacheEnable(boolean enable) {
+        WebCacheManager.getInstance().setCacheEnable(enable);
+    }
+
+    @Override
+    public void setCacheWhiteHost(String... hosts) {
+        WebCacheManager.getInstance().setCacheWhiteHost(hosts);
     }
 
     @Override
@@ -245,7 +254,7 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         if (mWebView != null && mWebView.canGoBack()) {
             WebBackForwardList webBackForwardList = mWebView.copyBackForwardList();
             boolean isRedirectPage = false;
@@ -259,17 +268,15 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
             }
             if (!isRedirectPage) {
                 mWebView.goBack();
-                return;
+                return true;
             }
 
             if (canGoBackTwoStep) {
                 mWebView.goBackOrForward(-2);
-                return;
+                return true;
             }
-            closeActivity();
-            return;
         }
-        closeActivity();
+        return false;
     }
 
     @Override

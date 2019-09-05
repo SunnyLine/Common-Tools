@@ -1,4 +1,4 @@
-package com.pullein.common.android.filter;
+package com.pullein.common.android.editview;
 
 import android.text.InputFilter;
 import android.text.Spanned;
