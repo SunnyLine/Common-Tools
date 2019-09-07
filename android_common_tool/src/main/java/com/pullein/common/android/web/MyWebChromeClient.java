@@ -7,6 +7,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.pullein.common.android.listener.MulResultListener;
+import com.pullein.common.utils.Log;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,7 +46,7 @@ public class MyWebChromeClient extends WebChromeClient {
                 return;
             }
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            Log.e(e.toString());
         }
         if (title.contains("404") || title.contains("about:blank") || title.contains("500") || title.contains("Error") || title.contains("找不到网页") || title.contains("网页无法打开")) {
             return;

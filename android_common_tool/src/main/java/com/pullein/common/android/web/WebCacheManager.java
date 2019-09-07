@@ -152,7 +152,7 @@ public class WebCacheManager {
     private boolean isInterceptor(Uri requestUri) {
         if (!cacheEnable) {
             //缓存不可用
-            Log.d(TAG + "缓存不可用");
+            Log.d(TAG + "缓存未开启");
             return false;
         }
         if (requestUri.getHost() == null || !whiteListHost.contains(requestUri.getHost())) {

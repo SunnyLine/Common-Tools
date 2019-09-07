@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.pullein.common.android.web.BaseWebFragment;
 public class WebViewFragment extends BaseWebFragment implements View.OnClickListener {
     String url = "https://ets2.cn";
 
-    private Toolbar mToolBar;
     private ConstraintLayout mErrorLayout;
 
     @Nullable
@@ -27,7 +25,6 @@ public class WebViewFragment extends BaseWebFragment implements View.OnClickList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mToolBar = view.findViewById(R.id.toolbar);
         mErrorLayout = view.findViewById(R.id.conErrorView);
         view.findViewById(R.id.tvReload).setOnClickListener(this);
         view.findViewById(R.id.tvClose).setOnClickListener(this);

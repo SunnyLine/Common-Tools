@@ -7,6 +7,8 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 
+import com.pullein.common.utils.Log;
+
 public class MyWebViewClient extends CacheWebClient {
     private boolean loadSuccess;
     private IWebView mView;
@@ -73,6 +75,7 @@ public class MyWebViewClient extends CacheWebClient {
         super.onReceivedError(view, request, error);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             loadSuccess = false;
+            Log.e("onReceivedError failingUrl = " + request.getUrl() + "\terrorCode = " + error.getErrorCode() + "\tdescription = " + error.getDescription());
         }
     }
 
@@ -81,6 +84,7 @@ public class MyWebViewClient extends CacheWebClient {
         super.onReceivedError(view, errorCode, description, failingUrl);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             loadSuccess = false;
+            Log.e("onReceivedError failingUrl = " + failingUrl + "\terrorCode = " + errorCode + "\tdescription = " + description);
         }
     }
 

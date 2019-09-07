@@ -127,7 +127,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    public class Builder {
+    public static class Builder {
         String crashFileSavePath;
         boolean isPrintErrorLog = true;
         AppCrashListener appCrashListener;
