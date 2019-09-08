@@ -61,7 +61,7 @@ public class AppUtil {
         return false;
     }
 
-    public boolean isAppRunning(Context context, String packageName) {
+    public static boolean isAppRunning(Context context, String packageName) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> infoList = am.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo processInfo : infoList) {

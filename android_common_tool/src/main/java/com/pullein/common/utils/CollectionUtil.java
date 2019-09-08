@@ -3,7 +3,6 @@ package com.pullein.common.utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +27,7 @@ public class CollectionUtil {
         return map == null || map.isEmpty();
     }
 
-    public static <T> void remove(List<T> list, int index) {
+    public static <T> void remove(Collection<T> list, int index) {
         try {
             list.remove(index);
         } catch (Exception e) {
@@ -36,7 +35,7 @@ public class CollectionUtil {
         }
     }
 
-    public static <T> void remove(List<T> list, T t) {
+    public static <T> void remove(Collection<T> list, T t) {
         try {
             list.remove(t);
         } catch (Exception e) {
@@ -44,12 +43,12 @@ public class CollectionUtil {
         }
     }
 
-    public static <T> void printList(List<T> list) {
-        if (isEmpty(list)) {
+    public static <T> void printList(Collection<T> collection) {
+        if (isEmpty(collection)) {
             Log.d("list is Empty");
             return;
         }
-        for (T t : list) {
+        for (T t : collection) {
             Log.d(t);
         }
     }

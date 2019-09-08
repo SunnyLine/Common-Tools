@@ -63,6 +63,7 @@ dependencies {
 |StatusBarUtil|状态栏工具类|
 |CommonInputFilter|通用输入框过滤器，传入正则和回调|
 |CleanableEditText|自动显示删除按钮，使用drawableRight|
+|NotificationsUtil|通知栏工具类|
 
 > eg:
 
