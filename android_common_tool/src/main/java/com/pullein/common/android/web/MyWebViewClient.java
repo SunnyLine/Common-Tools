@@ -111,7 +111,7 @@ public class MyWebViewClient extends CacheWebClient {
             return true;
         }
         if (mView != null) {
-            mView.shouldOverrideUrlLoading(requestUrl);
+            return mView.shouldOverrideUrlLoading(requestUrl);
         }
         return false;
     }

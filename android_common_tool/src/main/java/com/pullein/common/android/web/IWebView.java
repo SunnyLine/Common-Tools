@@ -47,7 +47,7 @@ public interface IWebView {
 
     void onPageStarted(String url);
 
-    void shouldOverrideUrlLoading(String url);
+    boolean shouldOverrideUrlLoading(String url);
 
     void onProgress(int progress);
 

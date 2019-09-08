@@ -44,8 +44,20 @@ public class WebViewFragment extends BaseWebFragment implements View.OnClickList
     }
 
     @Override
+    public boolean onBackPressed() {
+        if (super.onBackPressed()) {
+            return true;
+        }
+        if (mWebView != null && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tvReload:
                 reload();
                 break;

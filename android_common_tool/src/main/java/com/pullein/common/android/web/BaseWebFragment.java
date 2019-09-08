@@ -161,8 +161,9 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
     }
 
     @Override
-    public void shouldOverrideUrlLoading(String url) {
+    public boolean shouldOverrideUrlLoading(String url) {
         Log.d("shouldOverrideUrlLoading url = " + url);
+        return false;
     }
 
     @Override
