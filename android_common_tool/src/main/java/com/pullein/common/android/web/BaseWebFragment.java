@@ -13,8 +13,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.webkit.ValueCallback;
-import android.webkit.WebBackForwardList;
-import android.webkit.WebHistoryItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AbsoluteLayout;
@@ -45,6 +43,8 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
 
     protected WebView mWebView;
     protected View mProgressBar;
+
+    private boolean isGoBackAndAutoFinish = true;
 
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface", "SetJavaScriptEnabled"})
     protected void initWebView(View viewGroup, @IdRes int viewId) {
@@ -101,6 +101,10 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
         mProgressBar.setBackgroundColor(Color.parseColor("#41acff"));
     }
 
+    protected void setGoBackAndAutoFinish(boolean goBackAndAutoFinish) {
+        isGoBackAndAutoFinish = goBackAndAutoFinish;
+    }
+
     @Override
     public void setWebCacheEnable(boolean enable) {
         WebCacheManager.getInstance().setCacheEnable(enable);
@@ -124,9 +128,9 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
     }
 
     @Override
-    public void openAliPay(String aliPayUri) {
+    public void startActivityByScheme(String url) {
         try {
-            Intent intent = Intent.parseUri(aliPayUri,
+            Intent intent = Intent.parseUri(url,
                     Intent.URI_INTENT_SCHEME);
             intent.addCategory(Intent.CATEGORY_BROWSABLE);
             intent.setComponent(null);
@@ -257,25 +261,12 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
     @Override
     public boolean onBackPressed() {
         if (mWebView != null && mWebView.canGoBack()) {
-            WebBackForwardList webBackForwardList = mWebView.copyBackForwardList();
-            boolean isRedirectPage = false;
-            boolean canGoBackTwoStep = false;
-            try {
-                WebHistoryItem webHistoryItem = webBackForwardList.getCurrentItem();
-                canGoBackTwoStep = mWebView.canGoBackOrForward(-2);
-                isRedirectPage = !TextUtils.equals(webHistoryItem.getOriginalUrl(), webHistoryItem.getUrl());
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-            if (!isRedirectPage) {
-                mWebView.goBack();
-                return true;
-            }
-
-            if (canGoBackTwoStep) {
-                mWebView.goBackOrForward(-2);
-                return true;
-            }
+            mWebView.goBack();
+            return true;
+        }
+        if (isGoBackAndAutoFinish) {
+            closeActivity();
+            return true;
         }
         return false;
     }

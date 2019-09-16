@@ -1,8 +1,6 @@
 package com.pullein.common.android.web;
 
 import android.net.Uri;
-import android.support.annotation.IdRes;
-import android.view.View;
 
 import java.util.Map;
 
@@ -11,7 +9,7 @@ public interface IWebView {
 
     void startActivityByUri(Uri uri);
 
-    void openAliPay(String aliPayUri);
+    void startActivityByScheme(String url);
 
     void closeActivity();
 

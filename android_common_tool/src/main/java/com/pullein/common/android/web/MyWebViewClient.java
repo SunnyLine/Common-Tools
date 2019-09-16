@@ -89,44 +89,20 @@ public class MyWebViewClient extends CacheWebClient {
     }
 
     private boolean dealOverrideUrlLoading(WebView view, String requestUrl) {
-        if (alipay(requestUrl)) {
-            return true;
-        }
         if (requestUrl.startsWith("tel:")) {
             if (mView != null) {
                 mView.callNativePhone(Uri.parse(requestUrl));
             }
             return true;
         }
-        if (requestUrl.startsWith("weixin://") || requestUrl.startsWith("alipays://")) {
+        if (!WebUtil.isHttp(requestUrl)) {
             if (mView != null) {
-                try {
-                    mView.startActivityByUri(Uri.parse(requestUrl));
-                } catch (Exception e) {
-                    if (mView != null) {
-                        mView.toast(requestUrl.startsWith("weixin://") ? "请先安装微信" : "请先安装支付宝");
-                    }
-                }
+                mView.startActivityByScheme(requestUrl);
             }
             return true;
         }
         if (mView != null) {
             return mView.shouldOverrideUrlLoading(requestUrl);
-        }
-        return false;
-    }
-
-
-    private boolean alipay(final String url) {
-        if (url.contains("unitradeadapter.alipay.com")) {
-            try {
-                if (mView != null) {
-                    mView.openAliPay(url);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
         }
         return false;
     }
