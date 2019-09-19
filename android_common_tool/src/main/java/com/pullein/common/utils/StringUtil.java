@@ -8,11 +8,13 @@ import java.text.DecimalFormat;
 
 /**
  * Common-Tools<br>
- * describe ： 文本工具类
+ * describe ： 文本工具类<br>
+ * 使用{@link SpannableUtil}
  *
  * @author xugang
  * @date 2019/7/5
  */
+@Deprecated
 public class StringUtil {
 
     /**
@@ -201,6 +203,7 @@ public class StringUtil {
 
     /**
      * 正则校验
+     *
      * @param data
      * @param regular
      * @return

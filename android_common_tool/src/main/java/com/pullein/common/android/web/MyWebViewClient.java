@@ -3,6 +3,7 @@ package com.pullein.common.android.web;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.webkit.URLUtil;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -95,7 +96,7 @@ public class MyWebViewClient extends CacheWebClient {
             }
             return true;
         }
-        if (!WebUtil.isHttp(requestUrl)) {
+        if (!URLUtil.isValidUrl(requestUrl)) {
             if (mView != null) {
                 mView.startActivityByScheme(requestUrl);
             }

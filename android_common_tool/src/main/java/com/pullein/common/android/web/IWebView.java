@@ -50,4 +50,6 @@ public interface IWebView {
     void onProgress(int progress);
 
     void onPageFinished(String url);
+
+    void release();
 }

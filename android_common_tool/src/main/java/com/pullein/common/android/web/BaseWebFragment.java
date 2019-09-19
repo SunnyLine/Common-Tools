@@ -12,6 +12,8 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -142,6 +144,7 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
 
     @Override
     public void onDestroy() {
+        release();
         super.onDestroy();
         if (myDownloadListener != null) {
             myDownloadListener.release();
@@ -255,6 +258,22 @@ public abstract class BaseWebFragment extends Fragment implements IWebView, MulR
     public void closeActivity() {
         if (getActivity() != null) {
             getActivity().finish();
+        }
+    }
+
+    @Override
+    public void release() {
+        if (mWebView != null) {
+            ViewParent viewParent = mWebView.getParent();
+            if (viewParent != null) {
+                ((ViewGroup) viewParent).removeView(mWebView);
+            }
+            stopLoading();
+            mWebView.getSettings().setJavaScriptEnabled(false);
+            mWebView.clearHistory();
+            mWebView.clearView();
+            mWebView.removeAllViews();
+            mWebView.destroy();
         }
     }
 

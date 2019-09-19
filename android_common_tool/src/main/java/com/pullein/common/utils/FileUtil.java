@@ -14,7 +14,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
@@ -237,14 +239,14 @@ public class FileUtil {
     /**
      * 读取文件文本
      */
-    public static String getFileOutputString(String path) {
+    public static String readText(Reader reader) {
         BufferedReader bufferedReader = null;
         StringBuilder sb = new StringBuilder();
         try {
-            bufferedReader = new BufferedReader(new FileReader(path), 8 * 1024);
+            bufferedReader = new BufferedReader(reader, 8 * 1024);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                sb.append("\n").append(line);
+                sb.append(line).append("\n");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -256,5 +258,27 @@ public class FileUtil {
         return sb.toString();
     }
 
+    /**
+     * 读取文件文本
+     */
+    public static String readText(String path) {
+        try {
+            return readText(new FileReader(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    /**
+     * 读取文件文本
+     */
+    public static String readText(InputStream inputStream) {
+        try {
+            return readText(new InputStreamReader(inputStream));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
