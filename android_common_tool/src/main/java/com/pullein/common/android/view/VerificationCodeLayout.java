@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pullein.common.R;
-import com.pullein.common.utils.CommonCallBack;
+import com.pullein.common.android.listener.OneParameterListener;
 import com.pullein.common.utils.KeyboardUtil;
 
 import java.util.ArrayList;
@@ -47,8 +47,9 @@ public class VerificationCodeLayout extends LinearLayout implements View.OnClick
     private List<CharSequence> msg = new ArrayList<>();
     private int index = 0;
     private boolean autoInput = true;
+    private boolean autoCloseKeyBoard = true;
     private boolean autoComplete = true;
-    private CommonCallBack<String> mResultListener;
+    private OneParameterListener<String> mResultListener;
 
     public VerificationCodeLayout(Context context) {
         this(context, null);
@@ -77,6 +78,7 @@ public class VerificationCodeLayout extends LinearLayout implements View.OnClick
         editBg = array.getDrawable(R.styleable.VerificationCodeView_vcv_edit_bg);
         autoInput = array.getBoolean(R.styleable.VerificationCodeView_vcv_edit_auto_input, true);
         autoComplete = array.getBoolean(R.styleable.VerificationCodeView_vcv_edit_auto_complete, true);
+        autoCloseKeyBoard = array.getBoolean(R.styleable.VerificationCodeView_vcv_edit_auto_close_key_board, true);
         array.recycle();
         initView(context);
     }
@@ -87,7 +89,7 @@ public class VerificationCodeLayout extends LinearLayout implements View.OnClick
         addTextViews(context);
     }
 
-    public void setOnResultListener(CommonCallBack<String> mResultListener) {
+    public void setOnResultListener(OneParameterListener<String> mResultListener) {
         this.mResultListener = mResultListener;
     }
 
@@ -199,7 +201,9 @@ public class VerificationCodeLayout extends LinearLayout implements View.OnClick
             if (index == (editNumber - 1) && autoComplete) {
                 if (mResultListener != null) {
                     mResultListener.onResult(getResult());
-                    KeyboardUtil.closeKeyBoard(editText);
+                    if (autoCloseKeyBoard) {
+                        closeKeyBoard();
+                    }
                 }
             }
             return null;
@@ -214,5 +218,25 @@ public class VerificationCodeLayout extends LinearLayout implements View.OnClick
             sb.append(iterator.next());
         }
         return sb.toString();
+    }
+
+
+    public void closeKeyBoard() {
+        if (editText != null) {
+            KeyboardUtil.closeKeyBoard(editText);
+        }
+    }
+
+    public void release() {
+        try {
+            index = 0;
+            msg.clear();
+            for (TextView textView : textViews) {
+                textView.setText(null);
+            }
+            editText.setText(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

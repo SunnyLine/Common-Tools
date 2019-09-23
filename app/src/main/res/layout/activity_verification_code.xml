@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VerificationCodeActivity">
+    tools:context=".activity.VerificationCodeActivity">
 
     <com.pullein.common.android.view.VerificationCodeLayout
         android:id="@+id/verificationCodeLayout"
@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:vcv_edit_auto_close_key_board="true"
         app:vcv_edit_auto_complete="true"
         app:vcv_edit_auto_input="true"
         app:vcv_edit_bg="@drawable/edit"

@@ -115,6 +115,7 @@ public class FloatingButtonManager {
         try {
             if (!isAddFlowButton) {
                 isAddFlowButton = true;
+                mViewHelper.getRootView().setVisibility(View.VISIBLE);
                 mWindowManager.addView(mViewHelper.getRootView(), mLayoutParams);
             }
         } catch (Exception e) {

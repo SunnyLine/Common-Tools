@@ -5,8 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -27,16 +26,16 @@ public class CommonDecoration extends RecyclerView.ItemDecoration {
     public static final int STYLE_LINE_HORIZONTAL = LinearLayoutManager.HORIZONTAL;
     public static final int STYLE_LINE_VERTICAL = LinearLayoutManager.VERTICAL;
 
-    public CommonDecoration(Context mContext, @ColorRes int colorId) {
-        this(mContext, STYLE_LINE_HORIZONTAL, 1, new ColorDrawable(ContextCompat.getColor(mContext, colorId)), false);
+    public CommonDecoration(Context mContext, @ColorInt int colorId) {
+        this(mContext, STYLE_LINE_HORIZONTAL, 1, new ColorDrawable(colorId), false);
     }
 
-    public CommonDecoration(Context mContext, @ColorRes int colorId, int mDividerHeight) {
-        this(mContext, STYLE_LINE_HORIZONTAL, mDividerHeight, new ColorDrawable(ContextCompat.getColor(mContext, colorId)), false);
+    public CommonDecoration(Context mContext, @ColorInt int colorId, int mDividerHeight) {
+        this(mContext, STYLE_LINE_HORIZONTAL, mDividerHeight, new ColorDrawable(colorId), false);
     }
 
-    public CommonDecoration(Context mContext, @ColorRes int colorId, boolean isHideLastDecoration) {
-        this(mContext, STYLE_LINE_HORIZONTAL, 1, new ColorDrawable(ContextCompat.getColor(mContext, colorId)), isHideLastDecoration);
+    public CommonDecoration(Context mContext, @ColorInt int colorId, boolean isHideLastDecoration) {
+        this(mContext, STYLE_LINE_HORIZONTAL, 1, new ColorDrawable(colorId), isHideLastDecoration);
     }
 
     public CommonDecoration(Context mContext, int mOrientation, int mDividerHeight, Drawable mDivider, boolean isHideLastDecoration) {

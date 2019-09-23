@@ -17,19 +17,39 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".WebViewActivity" />
-        <activity android:name=".VerificationCodeActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".activity.HighLightActivity"
+            android:label="@string/high_light" />
+        <activity
+            android:name=".activity.StatusBarActivity"
+            android:label="@string/status_bar_style" />
+        <activity
+            android:name=".activity.ToolbarActivity"
+            android:label="@string/tool_bar_style" />
+        <activity
+            android:name=".activity.EventActivity"
+            android:label="@string/event_transmit" />
+        <activity
+            android:name=".activity.FloatButtonActivity"
+            android:label="@string/float_button" />
+        <activity
+            android:name=".activity.EditViewActivity"
+            android:label="@string/edit_view" />
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:label="@string/fragment_web" />
+        <activity
+            android:name=".activity.VerificationCodeActivity"
+            android:label="@string/verification_code" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="Demo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".FlowService"
-            android:exported="false" />
     </application>
 
 </manifest>
