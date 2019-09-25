@@ -10,6 +10,8 @@ import android.widget.EditText;
 
 import java.lang.reflect.Method;
 
+import static android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT;
+
 /**
  * Common-Tools<br>
  * describe ：
@@ -88,5 +90,14 @@ public class KeyboardUtil {
                 imm.showSoftInput(v, flags);
             }
         }, 200);
+    }
+
+    /**
+     * 显示虚拟键盘
+     *
+     * @param v EditView
+     */
+    public static void showKeyboard(final View v) {
+        showKeyboard(v, SHOW_IMPLICIT);
     }
 }
