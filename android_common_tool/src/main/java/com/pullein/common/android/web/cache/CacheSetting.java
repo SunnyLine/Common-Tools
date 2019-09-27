@@ -19,12 +19,32 @@ public class CacheSetting {
     private Map<String, String> interceptMap;
     private boolean cacheEnable;
     private String versionKey;
+    private ICheckVersion checkVersion;
+    private IDownload download;
 
-    private CacheSetting(Builder builder){
+    private CacheSetting(Builder builder) {
         cacheEnable = builder.cacheEnable;
         versionKey = builder.versionKey;
         interceptMap = builder.interceptMap;
         cacheHostWhiteList = builder.cacheHostWhiteList;
+        checkVersion = builder.checkVersion;
+        download = builder.download;
+    }
+
+    public IDownload getDownload() {
+        return download;
+    }
+
+    public void setDownload(IDownload download) {
+        this.download = download;
+    }
+
+    public ICheckVersion getCheckVersion() {
+        return checkVersion;
+    }
+
+    public void setCheckVersion(ICheckVersion checkVersion) {
+        this.checkVersion = checkVersion;
     }
 
     public List<String> getCacheHostWhiteList() {
@@ -64,14 +84,26 @@ public class CacheSetting {
         private Map<String, String> interceptMap;
         private boolean cacheEnable = false;
         private String versionKey;
+        private ICheckVersion checkVersion;
+        private IDownload download;
 
         public Builder() {
             cacheHostWhiteList = new ArrayList<>();
             interceptMap = new HashMap<>();
         }
 
+        public Builder setDownload(IDownload download) {
+            this.download = download;
+            return this;
+        }
+
+        public Builder setCheckVersion(ICheckVersion checkVersion) {
+            this.checkVersion = checkVersion;
+            return this;
+        }
+
         public Builder addCacheHost(String... host) {
-            Collections.addAll(cacheHostWhiteList,host);
+            Collections.addAll(cacheHostWhiteList, host);
             return this;
         }
 
@@ -100,12 +132,12 @@ public class CacheSetting {
             return this;
         }
 
-        public CacheSetting build(){
+        public CacheSetting build() {
             return new CacheSetting(this);
         }
     }
 
-    class CacheType {
+    public class CacheType {
         public static final String CACHE_FILE_JS = ".js";
         public static final String CACHE_FILE_HTML = ".html";
         public static final String CACHE_FILE_CSS = ".css";
@@ -119,7 +151,7 @@ public class CacheSetting {
     /**
      * @see <a href=" http://tool.oschina.net/commons">Http Content-type 对照表</a>
      */
-    class MimeType {
+    public class MimeType {
         public static final String MIME_TYPE_JS = "application/javascript";
         public static final String MIME_TYPE_HTML = "text/html";
         public static final String MIME_TYPE_CSS = "text/css";
