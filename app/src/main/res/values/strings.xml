@@ -12,5 +12,6 @@
     <string name="status_bar_style">StatusBar 样式</string>
     <string name="high_light">高亮引导</string>
     <string name="event_transmit">事件传递</string>
+    <string name="event_label">流式标签</string>
 
 </resources>

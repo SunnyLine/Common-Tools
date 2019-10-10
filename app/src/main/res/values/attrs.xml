@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="VerificationCodeView">
+        <attr name="vcv_edit_number" format="integer" />
+        <attr name="vcv_edit_width" format="dimension" />
+        <attr name="vcv_edit_text_color" format="color" />
+        <attr name="vcv_edit_text_size" format="dimension" />
+        <attr name="vcv_edit_bg" format="reference" />
+        <attr name="vcv_edit_auto_input" format="boolean" />
+        <attr name="vcv_edit_auto_complete" format="boolean" />
+        <attr name="vcv_edit_auto_close_key_board" format="boolean" />
+    </declare-styleable>
+    
+    <declare-styleable name="FlowLabelView">
+        <attr name="label_padding" format="dimension"/>
+        <attr name="label_padding_left" format="dimension"/>
+        <attr name="label_padding_top" format="dimension"/>
+        <attr name="label_padding_right" format="dimension"/>
+        <attr name="label_padding_bottom" format="dimension"/>
+        <attr name="label_inner_padding" format="dimension"/>
+        <attr name="label_inner_padding_left" format="dimension"/>
+        <attr name="label_inner_padding_top" format="dimension"/>
+        <attr name="label_inner_padding_right" format="dimension"/>
+        <attr name="label_inner_padding_bottom" format="dimension"/>
+        <attr name="label_padding_row" format="dimension"/>
+        <attr name="label_padding_column" format="dimension"/>
+        <attr name="label_text_size" format="dimension"/>
+        <attr name="label_text_color" format="color"/>
+        <attr name="label_text_bg" format="reference"/>
+    </declare-styleable>
+</resources>

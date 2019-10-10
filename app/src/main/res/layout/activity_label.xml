@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LabelActivity">
+
+    <com.demo.app.widgets.FlowLabelView
+        android:id="@+id/flowLabelView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:label_inner_padding="5dp"
+        app:label_padding="10dp"
+        app:label_padding_column="10dp"
+        app:label_padding_row="10dp"
+        app:label_text_bg="@drawable/bg_gray"
+        app:label_text_color="#999999"
+        app:label_text_size="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

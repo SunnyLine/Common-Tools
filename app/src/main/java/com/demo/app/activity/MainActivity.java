@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         mData.add(new ItemBean(R.string.event_transmit, EventActivity.class));
         mData.add(new ItemBean(R.string.tool_bar_style, ToolbarActivity.class));
         mData.add(new ItemBean(R.string.status_bar_style, StatusBarActivity.class));
-        mData.add(new ItemBean(R.string.high_light, HighLightActivity.class));
+        mData.add(new ItemBean(R.string.event_label, LabelActivity.class));
     }
 
     private void initRecyclerView() {
