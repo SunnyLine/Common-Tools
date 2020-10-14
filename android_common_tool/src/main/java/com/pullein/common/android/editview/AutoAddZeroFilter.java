@@ -23,8 +23,14 @@ public class AutoAddZeroFilter implements InputFilter {
                     return "0.";
                 }
             }
-            StringBuffer sb = new StringBuffer();
-            sb.append(dest).append(source);
+            StringBuffer sb = new StringBuffer(dest);
+            if (dstart == sb.length()){
+                //末尾添加
+                sb.append(source);
+            }else {
+                //中间插入
+                sb.insert(dstart,source);
+            }
             if (TextUtils.isEmpty(sb) || !sb.toString().matches(rule)) {
                 return "";
             }
